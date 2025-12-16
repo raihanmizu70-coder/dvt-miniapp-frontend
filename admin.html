@@ -1,0 +1,18 @@
+<input id="pass" placeholder="Admin Password">
+<button onclick="login()">Login</button>
+<div id="data"></div>
+
+<script src="config.js"></script>
+<script>
+function login(){
+ fetch(API+"/admin?pass="+pass.value)
+ .then(r=>r.json())
+ .then(d=>{
+   data.innerHTML=d.map(s=>`
+     <img src="${s.screenshot_url}" width="150"><br>
+     <button onclick="approve(${s.id},3)">Approve ৳3</button>
+     <button onclick="reject(${s.id})">Reject</button>
+   `).join("")
+ })
+}
+</script>

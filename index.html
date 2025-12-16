@@ -1,0 +1,25 @@
+<h3>🧩 Micro Jobs</h3>
+<div id="tasks"></div>
+
+<script src="config.js"></script>
+<script>
+fetch(API+"/tasks")
+.then(r=>r.json())
+.then(data=>{
+  document.getElementById("tasks").innerHTML =
+    data.map(t=>`
+      <div>
+        <h4>${t.title}</h4>
+        <a href="${t.cpa_link}" target="_blank">Open</a><br>
+        <input type="file" onchange="upload(${t.id},this)">
+      </div>
+    `).join("")
+})
+
+function upload(taskId,input){
+  const fd=new FormData();
+  fd.append("taskId",taskId);
+  fd.append("file",input.files[0]);
+  fetch(API+"/submit",{method:"POST",body:fd});
+}
+</script>
